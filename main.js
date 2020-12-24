@@ -98,11 +98,11 @@
 	};
 	const addRecord = (name, points) => {
 		let curData = localStorage.getItem('records');
-		console.log(curData);
 		let newData = [{
 			name: name,
 			points: points
 		}];
+
 		if(!curData){
 			localStorage.setItem('records', JSON.stringify(newData));
 			showRecords(newData);
@@ -117,10 +117,18 @@
 
 	const showRecords = (arr) => {
 		recordTable.innerHTML = '';
+
 		if(arr){
+			arr.sort((a,b) => b.points - a.points);
 			arr.forEach(item => {
-				recordTable.innerHTML += '<div><span>'+item.name + '</span> : '
-									+ '<span>'+item.points + '</span></div>\n';
+				let record = document.createElement('div');
+				let name = document.createElement('span');
+				let points = document.createElement('span');
+				name.innerText = item.name + ': ';
+				points.innerText = item.points;
+				recordTable.appendChild(record);
+				record.appendChild(name);
+				record.appendChild(points);
 			});
 		}
 	};
