@@ -9,25 +9,25 @@
 
 <h1>Виды кубов</h1>
 
-<img src = "/images/1.jpg" alt = "1">
-<img src = "/images/2.jpg" alt = "2">
-<img src = "/images/3.jpg" alt = "3">
+<img src = "/static/images/1.jpg" alt = "1">
+<img src = "/static/images/2.jpg" alt = "2">
+<img src = "/static/images/3.jpg" alt = "3">
 
 В первом режиме встречаются кубики таких типов.
 Все кубы с цифрами прибавляют к счетчику очков соответствующее количество указанное на них.
 
 <hr>
 
-<img src = "/images/4.jpg" alt = "4">
-<img src = "/images/question.jpg" alt = "question">
+<img src = "/static/images/4.jpg" alt = "4">
+<img src = "/static/images/question.jpg" alt = "question">
 
 Во втором режиме появляются эти два вида, где кубик со знаком вопроса
 может как отнять от времени 5 секунд так и наоборот прибавить.
 
 <hr>
 
-<img src = "/images/5.jpg" alt = "5">
-<img src = "/images/heart.jpg" alt = "heart">
+<img src = "/static/images/5.jpg" alt = "5">
+<img src = "/static/images/heart.jpg" alt = "heart">
 
 На последнем этапе появляются еще два типа кубов, где есть маленький кубик-компаньон который гарантировано прибавляет 5 секунд времени.
 
