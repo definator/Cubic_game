@@ -10,6 +10,7 @@
 	const finalScore = document.querySelector('span#final_score');
 	const modal = new bootstrap.Modal(modalDiv,{keyboard:false});
 	const saveRecord = modalDiv.querySelector('button#save_record');
+	const errorMsg = document.querySelector('div.error');
 	const cellSize = 60;
 	const total_time = 60;
 	const maxAmount = 30;
@@ -97,40 +98,56 @@
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	};
 	const addRecord = (name, points) => {
-		let curData = localStorage.getItem('records');
-		let newData = [{
+		
+		let newData = {
 			name: name,
 			points: points
-		}];
-
-		if(!curData){
-			localStorage.setItem('records', JSON.stringify(newData));
-			showRecords(newData);
+		};
+		fetch('/results', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newData)
+		})
+		.then(response => response.text())
+		.then(data => initRecordTable(data));
+	};
+	const showError = err => {
+		errorMsg.innerText = err;
+	};
+	const showRecords = () => {
+		fetch('/results')
+		.then(response => response.text())
+		.then(data => initRecordTable(data));
+	};
+	const initRecordTable = data => {
+		let records;
+		//Проверяем является ли ответ сервера JSON форматом
+		try {
+			records = JSON.parse(data);
+			
+		} catch(e) {
+			showError(data);
 			return;
 		}
-		curData = JSON.parse(curData);
-		curData.push(newData[0]);
-		localStorage.setItem('records', JSON.stringify(curData));
-		showRecords(curData);
-
-	};
-
-	const showRecords = (arr) => {
+		errorMsg.innerText = '';
+		modal.hide();
 		recordTable.innerHTML = '';
-
-		if(arr){
-			arr.sort((a,b) => b.points - a.points);
-			arr.forEach(item => {
-				let record = document.createElement('div');
-				let name = document.createElement('span');
-				let points = document.createElement('span');
-				name.innerText = item.name + ': ';
-				points.innerText = item.points;
-				recordTable.appendChild(record);
-				record.appendChild(name);
-				record.appendChild(points);
-			});
-		}
+		//сортируем очки по убыванию
+		if(records.length >= 2)
+			records = records.sort((a, b) => b.points - a.points);
+		////////////////////////////
+		records.forEach(item => {
+			let record = document.createElement('div');
+			let name = document.createElement('span');
+			let points = document.createElement('span');
+			name.innerText = item.name + ': ';
+			points.innerText = item.points;
+			recordTable.appendChild(record);
+			record.appendChild(name);
+			record.appendChild(points);
+		});
 	};
 	const playSound = (filename) => {
 		let audio = new Audio();
@@ -370,10 +387,15 @@
 		}
 		addRecord(username.value, total_points);
 		
-		modal.hide();
+		
 	});
 	recordTable.addEventListener('dblclick', () => {
-		localStorage.removeItem('records');
-		showRecords();
+		fetch('/results',{
+		method: 'POST',
+		body: 'cleanRecords'
+		})
+		.then(response => {
+			showRecords();
+		});
 	});
 })();

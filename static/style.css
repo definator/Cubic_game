@@ -3,6 +3,13 @@ body {
 	background: url('./images/bg.jpg') #212529;
 	color: #787878;
 }
+div.error {
+	height: 20px;
+	margin-left: 10px;
+	color: red;
+	font-size: 18px;
+	font-weight: bold;
+}
 div#game {
 	margin: 20px;
 	background-color: #353c42;

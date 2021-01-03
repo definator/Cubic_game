@@ -1,0 +1,1 @@
+[{"name":"dmitry.oskalenko","points":12},{"name":"zeller7","points":6},{"name":"definator","points":8}]
