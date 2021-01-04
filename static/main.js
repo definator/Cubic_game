@@ -1,5 +1,4 @@
 (function(){
-	const prevRecords = JSON.parse(localStorage.getItem('records'));
 	const gameField = document.querySelector('div#game');
 	const startBtn = document.querySelector('button#start_game');
 	const newGameBtn = document.querySelector('button#new_game');
@@ -22,6 +21,8 @@
 	allCubes = [['base', 'double', 'triple'],
 						['question', 'quadruple'],
 						['timeadd', 'quintuple']];
+
+	
 
 
 	let ACTIONS = {
@@ -121,6 +122,7 @@
 		.then(response => response.text())
 		.then(data => initRecordTable(data));
 	};
+	showRecords();
 	const initRecordTable = data => {
 		let records;
 		//Проверяем является ли ответ сервера JSON форматом
@@ -155,8 +157,7 @@
 		audio.src = './audio/'+filename+'.mp3';
 		audio.play();
 	};
-	if(prevRecords)
-		showRecords(prevRecords);
+		
 
 
 	class Game {
